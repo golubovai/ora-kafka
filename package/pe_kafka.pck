@@ -962,6 +962,9 @@ is
   type rs_create_acls#result_set is table of rs_create_acls#result index by pls_integer;
   type rs_create_acls is record(throttle_time cn_int32,
                                 result_set rs_create_acls#result_set);
+  
+  procedure put_rq_create_acls(p_buf in out nocopy te_output_buf, p_rq_header in cn_header, p_rq_create_acls in rq_create_acls);
+  function read_rs_create_acls(p_buf in out nocopy te_input_buf) return rs_create_acls;
                                 
   -- # Delete acls (31)
   type rq_delete_acls#filter is record(resource_type_filter cn_int8,
@@ -990,6 +993,9 @@ is
   type rs_delete_acls#result_set is table of rs_delete_acls#result index by pls_integer;
   type rs_delete_acls is record(throttle_time cn_int32,
                                 filter_result_set rs_delete_acls#result_set);
+  
+  procedure put_rq_delete_acls(p_buf in out nocopy te_output_buf, p_rq_header in cn_header, p_rq_delete_acls in rq_delete_acls);
+  function read_rs_delete_acls(p_buf in out nocopy te_input_buf) return rs_delete_acls;
   
   -- # Describe configs (32)
   type rq_describe_configs#resource is record(resource_type cn_int8,
@@ -1020,6 +1026,9 @@ is
   type rs_describe_configs is record(throttle_time cn_int32,
                                      result_set rs_describe_configs#result_set);
   
+  procedure put_rq_describe_configs(p_buf in out nocopy te_output_buf, p_rq_header in cn_header, p_rq_describe_configs in rq_describe_configs);
+  function read_rs_describe_configs(p_buf in out nocopy te_input_buf) return rs_describe_configs;
+  
   -- # Alter configs (33)
   type rq_alter_configs#config is record(name cn_string,
                                          value cn_string);
@@ -1039,6 +1048,9 @@ is
   type rs_alter_configs is record(throttle_time cn_int32,
                                   resource_set rs_alter_configs#resource_set);
   
+  procedure put_rq_alter_configs(p_buf in out nocopy te_output_buf, p_rq_header in cn_header, p_rq_alter_configs in rq_alter_configs);
+  function read_rs_alter_configs(p_buf in out nocopy te_input_buf) return rs_alter_configs;
+  
   -- # Alter replica log dirs (34)
   type rq_alter_replica_log_dirs#topic is record(name cn_string,
                                                  partition_set cn_int32_set);
@@ -1056,6 +1068,9 @@ is
   type rs_alter_replica_log_dirs#result_set is table of rs_alter_replica_log_dirs#result index by pls_integer;
   type rs_alter_replica_log_dirs is record(throttle_time cn_int32,
                                            result_set rs_alter_replica_log_dirs#result_set);
+  
+  procedure put_rq_alter_replica_log_dirs(p_buf in out nocopy te_output_buf, p_rq_header in cn_header, p_rq_alter_replica_log_dirs in rq_alter_replica_log_dirs);
+  function read_rs_alter_replica_log_dirs(p_buf in out nocopy te_input_buf) return rs_alter_replica_log_dirs;
   
   -- # Describe log dirs (35)
   type rq_describe_log_dirs#topic is record(name cn_string,
@@ -1078,6 +1093,9 @@ is
   type rs_describe_log_dirs is record(throttle_time cn_int32,
                                       result_set rs_describe_log_dirs#result_set);
   
+  procedure put_rq_describe_log_dirs(p_buf in out nocopy te_output_buf, p_rq_header in cn_header, p_rq_describe_log_dirs in rq_describe_log_dirs);
+  function read_rs_describe_log_dirs(p_buf in out nocopy te_input_buf) return rs_describe_log_dirs;
+  
   -- # Sasl authenticate (36)
   type rq_sasl_authenticate is record(auth_bytes cn_data);
 
@@ -1085,6 +1103,9 @@ is
                                       error_message cn_string,
                                       auth_bytes cn_data,
                                       session_lifetime cn_int64);
+  
+  procedure put_rq_sasl_authenticate(p_buf in out nocopy te_output_buf, p_rq_header in cn_header, p_rq_sasl_authenticate in rq_sasl_authenticate);
+  function read_rs_sasl_authenticate(p_buf in out nocopy te_input_buf) return rs_sasl_authenticate;
   
   -- # Create partitions (37)
   type rq_create_partitions#assignment is record(broker_set cn_int32_set);
@@ -1104,6 +1125,9 @@ is
   type rs_create_partitions is record(throttle_time cn_int32,
                                       result_set rs_create_partitions#result_set);
   
+  procedure put_rq_create_partitions(p_buf in out nocopy te_output_buf, p_rq_create_partitions in rq_create_partitions);
+  function read_rs_create_partitions(p_buf in out nocopy te_input_buf) return rs_create_partitions;
+  
   -- # Create delegation token (38)
   type rq_create_delegation_token#renewer is record(principal_type cn_string,
                                                     principal_name cn_string);
@@ -1120,6 +1144,9 @@ is
                                             token_id cn_string,
                                             hmac cn_data,
                                             throttle_time cn_int32);
+                                            
+  procedure put_rq_create_delegation_token(p_buf in out nocopy te_output_buf, p_rq_header in cn_header, p_rq_create_delegation_token in rq_create_delegation_token);
+  function read_rs_create_delegation_token(p_buf in out nocopy te_input_buf) return rs_create_delegation_token;
   
   -- # Renew delegation token (39)
   type rq_renew_delegation_token is record(hmac cn_data,
@@ -1128,6 +1155,9 @@ is
   type rs_renew_delegation_token is record(error_code cn_int16,
                                            expiry_timestamp cn_int64,
                                            throttle_time cn_int32);
+                                           
+  procedure put_rq_renew_delegation_token(p_buf in out nocopy te_output_buf, p_rq_header in cn_header, p_rq_renew_delegation_token in rq_renew_delegation_token);
+  function read_rs_renew_delegation_token(p_buf in out nocopy te_input_buf) return rs_renew_delegation_token;
     
   -- # Expire delegation token (40)
   type rq_expire_delegation_token is record(hmac cn_data,
@@ -1136,6 +1166,9 @@ is
   type rs_expire_delegation_token is record(error_code cn_int16,
                                             expiry_timestamp cn_int64,
                                             throttle_time cn_int32);
+                                            
+  procedure put_rq_expire_delegation_token(p_buf in out nocopy te_output_buf, p_rq_header in cn_header, p_rq_expire_delegation_token in rq_expire_delegation_token);
+  function read_rs_expire_delegation_token(p_buf in out nocopy te_input_buf) return rs_expire_delegation_token;
   
   -- # Describe delegation token (41)
   type rq_describe_delegation_token#owner is record(principal_type cn_string,
@@ -1159,6 +1192,9 @@ is
                                               token_set rs_describe_delegation_token#token_set,
                                               throttle_time cn_int32);
   
+  procedure put_rq_describe_delegation_token(p_buf in out nocopy te_output_buf, p_rq_header in cn_header, p_rq_describe_delegation_token in rq_describe_delegation_token);
+  function read_rs_describe_delegation_token(p_buf in out nocopy te_input_buf) return rs_describe_delegation_token;
+  
   -- # Delete groups (42)
   type rq_delete_groups is record(group_name_set cn_string_set);
   
@@ -1167,6 +1203,10 @@ is
   type rs_delete_groups#result_set is table of rs_delete_groups#result index by pls_integer;
   type rs_delete_groups is record(throttle_time cn_int32,
                                   result_set rs_delete_groups#result_set);
+                                  
+  procedure put_rq_delete_groups(p_buf in out nocopy te_output_buf, p_rq_header in cn_header, p_rq_delete_groups in rq_delete_groups);
+  function read_rs_delete_groups(p_buf in out nocopy te_input_buf) return rs_delete_groups;
+  
   -- # Elect preferred leaders (43)
   type rq_elect_preferred_leaders#topic_partition is record(topic cn_string,
                                                             partition_set cn_int32_set);
@@ -1183,6 +1223,9 @@ is
   type rs_elect_preferred_leaders#result_set is table of rs_elect_preferred_leaders#result index by pls_integer;
   type rs_elect_preferred_leaders is record(throttle_time cn_int32,
                                             result_set rs_elect_preferred_leaders#result_set);
+  
+  procedure put_rq_elect_preferred_leaders(p_buf in out nocopy te_output_buf, p_rq_header in cn_header, p_rq_elect_preferred_leaders in rq_elect_preferred_leaders);
+  function read_rs_elect_preferred_leaders(p_buf in out nocopy te_input_buf) return rs_elect_preferred_leaders;
   
   -- # Incremental alter configs (44)
   type rq_incremental_alter_configs#config is record(name cn_string,
@@ -1204,7 +1247,8 @@ is
   type rs_incremental_alter_configs is record(throttle_time cn_int32,
                                               response_set rs_incremental_alter_configs#response_set);
   
-  
+  procedure put_rq_incremental_alter_configs(p_buf in out nocopy te_output_buf, p_rq_header in cn_header, p_rq_incremental_alter_configs in rq_incremental_alter_configs);
+  function read_rs_incremental_alter_configs(p_buf in out nocopy te_input_buf) return rs_incremental_alter_configs;
   
   
   
